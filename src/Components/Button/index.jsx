@@ -1,0 +1,15 @@
+import { Spinner } from "@material-tailwind/react";
+import React from "react";
+
+export const Button = ({ loading, title, color = "Primary", ...rest }) => {
+  return (
+    <button
+      className={`${
+        color === "Primary" ? "bg-light-blue-400" : "bg-yellow-400"
+      } p-2 min-w-[150px] rounded-lg text-black  flex justify-center items-center`}
+      {...rest}
+    >
+      {loading ? <Spinner className="h-6 w-6" color="white" /> : title}
+    </button>
+  );
+};
