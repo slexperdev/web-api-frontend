@@ -18,6 +18,7 @@ export default function LoginView() {
     email: "",
     password: "",
   });
+  const [passwordInput, setPasswordInput] = useState("password");
 
   useEffect(() => {
     const checkAuthenticate = () => {
@@ -34,7 +35,7 @@ export default function LoginView() {
       const res = await signIn({ loginState });
 
       if (res.data.status) {
-        setToken(res.data.accessToken);
+        setToken(res.data.token);
       } else {
         toast.error(res.data.data);
       }
@@ -43,10 +44,18 @@ export default function LoginView() {
     }
   };
 
+  const handleShowPassword = () => {
+    if (passwordInput === "password") {
+      setPasswordInput("text");
+    } else {
+      setPasswordInput("password");
+    }
+  };
+
   return (
     <div className="flex h-screen items-center justify-center lg:to-gray-900 sm:bg-white sm:p-2 ">
-      <div className="grid lg:grid-cols-2 bg-white sm:grid-rows-1 rounded-lg overflow-hidden lg:h-[60%] sm:h-[80%] min-w-[80%] shadow-2xl">
-        <div className="bg-cover bg-[url('https://cdn.create.vista.com/api/media/small/97690648/stock-photo-maya-bay-phi-phi-island')]">
+      <div className="grid lg:grid-cols-2 bg-white sm:grid-rows-1 rounded-lg overflow-hidden lg:h-[60%] sm:h-[90%] min-w-[80%] shadow-2xl">
+        <div className="bg-cover bg-[url('https://cdn.create.vista.com/api/media/small/97690648/stock-photo-maya-bay-phi-phi-island')] px-2">
           {/* <p className="text-2xl text-center">
             Travel is only thing you buy that make you richer
           </p> */}
@@ -80,6 +89,7 @@ export default function LoginView() {
               placeholder="Enter your email"
               type="email"
               value={loginState.email}
+              required
               onChange={(e) =>
                 setLoginState({ ...loginState, email: e.target.value })
               }
@@ -88,10 +98,12 @@ export default function LoginView() {
               label="Password"
               name="password"
               placeholder="Enter your password"
-              type="password"
+              type={passwordInput}
+              secured
+              onClick={handleShowPassword}
               minLength={6}
-              maxLength={12}
               value={loginState.password}
+              required
               onChange={(e) =>
                 setLoginState({ ...loginState, password: e.target.value })
               }

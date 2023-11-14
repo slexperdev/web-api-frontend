@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
 import {
@@ -17,14 +17,18 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { Constant } from "../../Constant";
+import { Cart } from "../Cart";
 
-function NavList() {
+function NavList({ setOpenCart }) {
   return (
     <ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       {Constant.NAV_LINKS.map((item, idx) => (
         <NavLink key={idx} link={item} />
       ))}
-      <a>
+      <a className="relative cursor-pointer" onClick={() => setOpenCart(true)}>
+        <div className="absolute right-[-4px] top-[-5px] h-4 w-4 bg-red-400 rounded-[50%]">
+          <p className="text-xs text-center text-white">0</p>
+        </div>
         <ShoppingBagIcon className="h-6 w-6" />
       </a>
       <Avatar
@@ -38,7 +42,7 @@ function NavList() {
   );
 }
 
-export const Navbar = () => {
+export const Navbar = ({ setOpenCart }) => {
   const [openNav, setOpenNav] = React.useState(false);
 
   const handleWindowResize = () =>
@@ -65,8 +69,17 @@ export const Navbar = () => {
         </Typography>
 
         <div className="hidden lg:block">
-          <NavList />
+          <NavList setOpenCart={setOpenCart} />
         </div>
+        <a
+          className="lg:hidden relative cursor-pointer"
+          onClick={() => setOpenCart(true)}
+        >
+          <div className="absolute right-[-4px] top-[-5px] h-4 w-4 bg-red-400 rounded-[50%]">
+            <p className="text-xs text-center text-white">0</p>
+          </div>
+          <ShoppingBagIcon className="h-6 w-6" />
+        </a>
         <IconButton
           variant="text"
           className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
@@ -83,6 +96,7 @@ export const Navbar = () => {
       <Collapse open={openNav}>
         <NavList />
       </Collapse>
+      <Cart />
     </Nav>
   );
 };
@@ -105,13 +119,13 @@ export const DetailNavBar = () => {
 export const NavLink = ({ link }) => {
   const { pathname } = useLocation();
   const linkClass =
-    "flex items-center text-sm hover:text-blue-500 transition-colors";
+    "flex items-center text-sm hover:text-light-blue-400 transition-colors";
 
   return (
     <Link
       to={link.to}
       className={classNames(
-        pathname === link.to ? "text-blue-400" : "text-gray-600",
+        pathname === link.to ? "text-light-blue-400" : "text-black",
         linkClass
       )}
     >

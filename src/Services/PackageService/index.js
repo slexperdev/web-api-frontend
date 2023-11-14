@@ -1,19 +1,18 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQueryWithAuthHeaders } from "../baseQueries";
 
-export const cruiseApi = createApi({
-  reducerPath: "cruiseApi",
+export const packageApi = createApi({
+  reducerPath: "packageApi",
   baseQuery: baseQueryWithAuthHeaders,
   endpoints: (build) => ({
-    getCruise: build.query({
-      query: (params) => ({
-        url: "cruise/filter/",
+    getPackage: build.query({
+      query: () => ({
+        url: "package/filter/",
         method: "GET",
-        params,
       }),
       transformResponse: (response) => response.data,
     }),
   }),
 });
 
-export const { useGetCruiseQuery } = cruiseApi;
+export const { useGetPackageQuery } = packageApi;
