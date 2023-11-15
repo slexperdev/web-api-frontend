@@ -63,7 +63,7 @@ export const Navbar = ({ setOpenCart }) => {
       <div className="flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
-          href="#"
+          href="/"
           variant="h5"
           className="mr-4 cursor-pointer py-1.5 font-DancingScript"
         >
@@ -77,9 +77,7 @@ export const Navbar = ({ setOpenCart }) => {
           className="lg:hidden relative cursor-pointer"
           onClick={() => setOpenCart(true)}
         >
-          <div className="absolute right-[-4px] top-[-5px] h-4 w-4 bg-red-400 rounded-[50%]">
-            <p className="text-xs text-center text-white">0</p>
-          </div>
+          <div className="absolute right-[-2px] top-[-2px] h-2 w-2 bg-red-400 rounded-[50%]"></div>
           <ShoppingBagIcon className="h-6 w-6" />
         </a>
         <IconButton

@@ -3,6 +3,8 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
 import { cruiseReducer } from "./cruise";
+import { activityReducer } from "./activity";
+import { packageReducer } from "./package";
 
 import { authApi } from "../Services/AuthService";
 import { cruiseApi } from "../Services/CruiseService";
@@ -15,6 +17,8 @@ export const store = configureStore({
   reducer: {
     // Add the generated reducer as a specific top-level slice
     cruise: cruiseReducer,
+    activity: activityReducer,
+    pack: packageReducer,
     [authApi.reducerPath]: authApi.reducer,
     [cruiseApi.reducerPath]: cruiseApi.reducer,
     [activityApi.reducerPath]: activityApi.reducer,

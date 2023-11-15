@@ -14,7 +14,6 @@ export const cartApi = createApi({
       }),
       invalidatesTags: ["cart"],
     }),
-    
     getCart: build.query({
       query: (id) => ({
         url: `cart/${id}`,
@@ -23,7 +22,15 @@ export const cartApi = createApi({
       providesTags: ["cart"],
       transformResponse: (response) => response,
     }),
+    checkout: build.mutation({
+      query: ({ data }) => ({
+        url: "checkout/",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useAddToCartMutation, useGetCartQuery } = cartApi;
+export const { useAddToCartMutation, useGetCartQuery, useCheckoutMutation } =
+  cartApi;

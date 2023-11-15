@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ClockLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import {
   useGetArrivalsQuery,
@@ -12,10 +13,8 @@ import { setCruise } from "../../../Stores/cruise";
 import { Constant } from "../../../Constant";
 
 import { Button, Card, Dropdown, Layout, TextField } from "../../../Components";
-import { useNavigate } from "react-router-dom";
 
 export default function CruiseView() {
-  // const [filterData, setFilterData] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [filterState, setFilterState] = useState();
@@ -44,7 +43,7 @@ export default function CruiseView() {
 
   const onNavigateToDetailView = (item) => {
     dispatch(setCruise(item));
-    navigate("/detail");
+    navigate("/cruise-detail");
   };
 
   return (

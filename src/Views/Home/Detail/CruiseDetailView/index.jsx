@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
-import { useAddToCartMutation } from "../../../Services/CartService";
-import { Constant } from "../../../Constant";
-import { getConvertedData } from "../../../Util/Common";
+import { useAddToCartMutation } from "../../../../Services/CartService";
+import { Constant } from "../../../../Constant";
+import { getConvertedData } from "../../../../Util/Common";
 
-import { Button, Dropdown, Layout } from "../../../Components";
+import { Button, Dropdown, Layout } from "../../../../Components";
 import { toast } from "react-toastify";
 
-export default function DetailView() {
+export default function CruiseDetailView() {
   const { cruise } = useSelector((state) => state.cruise);
   const [addToCart, { error, isLoading }] = useAddToCartMutation();
 
@@ -21,10 +21,15 @@ export default function DetailView() {
     try {
       const agentId = localStorage.getItem(Constant.TRAVEL_AGENT_ID);
       const data = {
-        cruises: "cruises",
         travelAgentId: agentId,
-        mealPreferences: state.mealPreferences,
-        cabinSelection: state.cabinSelection,
+        cruises: [
+          {
+            title: cruise.title,
+            price: cruise.price,
+            mealPreferences: state.mealPreferences,
+            cabinSelection: state.cabinSelection,
+          },
+        ],
       };
 
       const res = await addToCart({ data });
@@ -97,6 +102,7 @@ export default function DetailView() {
               color="secondary"
               title="Add to Cart"
               onClick={handleCart}
+              loading={isLoading}
             />
           </div>
         </div>

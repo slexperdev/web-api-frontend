@@ -1,13 +1,19 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { ClockLoader } from "react-spinners";
 
 import { useGetPackageQuery } from "../../../Services/PackageService";
 import { useGetDestinationsQuery } from "../../../Services/ConfigService";
+import { setPackage } from "../../../Stores/package";
 import { Constant } from "../../../Constant";
 
 import { Button, Card, Dropdown, Layout, TextField } from "../../../Components";
 
 export default function PackageView() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [filterState, setFilterState] = useState();
   const {
     data: packageData,
@@ -26,6 +32,11 @@ export default function PackageView() {
 
   const handleClear = async () => {
     setFilterState();
+  };
+
+  const onNavigateToDetailView = (item) => {
+    dispatch(setPackage(item));
+    navigate("/package-detail");
   };
 
   return (
@@ -88,7 +99,7 @@ export default function PackageView() {
             name="duration"
             onChange={handleSelect}
           />
-          <Button title="Clear" color="secondary" />
+          <Button title="Clear" color="secondary" onChange={handleClear} />
         </form>
       </div>
 
@@ -112,7 +123,7 @@ export default function PackageView() {
               key={key}
               price={item.price}
               title={item.title}
-              // onClickHandler={() => onNavigateToDetailView(item)}
+              onClickHandler={() => onNavigateToDetailView(item)}
               img="https://cdn3.vectorstock.com/i/1000x1000/56/97/colorful-travel-icon-set-vector-48265697.jpg"
             />
           ))}

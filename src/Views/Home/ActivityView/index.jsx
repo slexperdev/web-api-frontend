@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { ClockLoader } from "react-spinners";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { useGetActivityQuery } from "../../../Services/ActivityService";
 import { useGetDestinationsQuery } from "../../../Services/ConfigService";
+import { setActivity } from "../../../Stores/activity";
 import { Constant } from "../../../Constant";
 
 import { Button, Card, Dropdown, Layout, TextField } from "../../../Components";
 
 export default function ActivityView() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [filterState, setFilterState] = useState();
   const {
     data: activityData,
@@ -26,6 +32,11 @@ export default function ActivityView() {
 
   const handleClear = async () => {
     setFilterState();
+  };
+
+  const onNavigateToDetailView = (item) => {
+    dispatch(setActivity(item));
+    navigate("/activity-detail");
   };
 
   return (
@@ -99,7 +110,7 @@ export default function ActivityView() {
               key={key}
               price={item.price}
               title={item.title}
-              // onClickHandler={() => onNavigateToDetailView(item)}
+              onClickHandler={() => onNavigateToDetailView(item)}
               img="https://mir-s3-cdn-cf.behance.net/project_modules/disp/c0e6e651494561.58ef650eda566.png"
             />
           ))}
