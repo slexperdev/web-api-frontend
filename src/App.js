@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import LoginView from "./Views/Auth/LoginView";
-import CruiseView from "./Views/Home/Cruise";
-import PackageView from "./Views/Home/Package";
-import ActivityView from "./Views/Home/Activity";
-import DetailView from "./Views/Home/Detail";
+import CruiseView from "./Views/Home/CruiseView";
+import PackageView from "./Views/Home/PackageView";
+import ActivityView from "./Views/Home/ActivityView";
+import DetailView from "./Views/Home/DetailView";
 import UnknownView from "./Views/404";
 
 import { ProtectedRoutes } from "./routes";

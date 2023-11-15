@@ -6,9 +6,10 @@ export const packageApi = createApi({
   baseQuery: baseQueryWithAuthHeaders,
   endpoints: (build) => ({
     getPackage: build.query({
-      query: () => ({
+      query: (params) => ({
         url: "package/filter/",
         method: "GET",
+        params,
       }),
       transformResponse: (response) => response.data,
     }),

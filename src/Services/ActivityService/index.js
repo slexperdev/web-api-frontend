@@ -6,9 +6,10 @@ export const activityApi = createApi({
   baseQuery: baseQueryWithAuthHeaders,
   endpoints: (build) => ({
     getActivity: build.query({
-      query: () => ({
+      query: (params) => ({
         url: "activity/filter/",
         method: "GET",
+        params,
       }),
       transformResponse: (response) => response.data,
     }),

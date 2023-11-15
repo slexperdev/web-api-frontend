@@ -7,6 +7,7 @@ import { useSignInMutation } from "../../../Services/AuthService";
 
 import useToken from "../../../Hooks/UseToken";
 import { Checkbox } from "@material-tailwind/react";
+import { Constant } from "../../../Constant";
 
 export default function LoginView() {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ export default function LoginView() {
       const res = await signIn({ loginState });
 
       if (res.data.status) {
+        localStorage.setItem(Constant.TRAVEL_AGENT_ID, res.data.user._id);
         setToken(res.data.token);
       } else {
         toast.error(res.data.data);

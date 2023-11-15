@@ -25,10 +25,12 @@ function NavList({ setOpenCart }) {
       {Constant.NAV_LINKS.map((item, idx) => (
         <NavLink key={idx} link={item} />
       ))}
-      <a className="relative cursor-pointer" onClick={() => setOpenCart(true)}>
-        <div className="absolute right-[-4px] top-[-5px] h-4 w-4 bg-red-400 rounded-[50%]">
-          <p className="text-xs text-center text-white">0</p>
-        </div>
+      <a
+        className="relative cursor-pointer lg:visible sm:invisible"
+        onClick={() => setOpenCart(true)}
+      >
+        <div className="absolute right-[-2px] top-[-2px] h-2 w-2 bg-red-400 rounded-[50%]" />
+
         <ShoppingBagIcon className="h-6 w-6" />
       </a>
       <Avatar

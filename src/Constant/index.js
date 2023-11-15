@@ -1,5 +1,6 @@
 export const Constant = {
   TOKEN: "TOKEN",
+  TRAVEL_AGENT_ID: "TRAVEL_AGENT_ID",
   CURRENCY: "$",
   NAV_LINKS: [
     {
@@ -23,8 +24,13 @@ export const Constant = {
     { value: 1, label: "⭑" },
   ],
   CABIN_CLASS: [
-    { value: "business", label: "Business" },
-    { value: "economy", label: "Economy" },
+    { value: "Interior cabin", label: "Interior cabin" },
+    { value: "Ocean View Cabin", label: "Ocean View Cabin" },
+    { value: "Balcony Cabin", label: "Balcony Cabin" },
+    { value: "Suites", label: "Suites" },
+    { value: "Family Cabin", label: "Family Cabin" },
+    { value: "Connecting Cabin", label: "Connecting Cabin" },
+    { value: "Single Cabin", label: "Single Cabin" },
   ],
   DECK: [
     { value: "inside", label: "Inside" },
@@ -43,5 +49,21 @@ export const Constant = {
     { value: "Beach holiday", label: "Beach holiday" },
     { value: "Wildlife excursion", label: "Wildlife excursion" },
     { value: "Family holiday", label: "Family holiday" },
+  ],
+  MEAL_PREFERENCES: [
+    {
+      value: "Vegetarian and Vegan Options",
+      label: "Vegetarian and Vegan Options",
+    },
+    {
+      value: "Gluten-Free and Allergen-Free Options",
+      label: "Gluten-Free and Allergen-Free Options",
+    },
+    { value: "Kosher and Halal Meals", label: "Kosher and Halal Meals" },
+    {
+      value: "Low-Carb or Low-Fat Options",
+      label: "Low-Carb or Low-Fat Options",
+    },
+    { value: "Customizable Menus", label: "Customizable Menus" },
   ],
 };
