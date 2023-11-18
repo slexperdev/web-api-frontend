@@ -1,21 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 
 import { useAddToCartMutation } from "../../../../Services/CartService";
 import { Constant } from "../../../../Constant";
-import { getConvertedData } from "../../../../Util/Common";
+import { getRatingStar } from "../../../../Util/Common";
 
-import { Button, Dropdown, Layout } from "../../../../Components";
+import { Button, Layout } from "../../../../Components";
 import { toast } from "react-toastify";
 
 export default function PackageDetailView() {
   const { pack } = useSelector((state) => state.pack);
   const [addToCart, { error, isLoading }] = useAddToCartMutation();
-
-  const [state, setState] = useState({
-    mealPreferences: "",
-    cabinSelection: "",
-  });
 
   const handleCart = async () => {
     try {
@@ -54,27 +49,30 @@ export default function PackageDetailView() {
         <div className="flex flex-col gap-4">
           <p className="text-2xl capitalize">{pack.title}</p>
 
-          <p className="text-sm text-gray-600">{pack.description}</p>
+          <p className="text-lg text-gray-600 capitalize">{pack.description}</p>
           <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
             <p>
               Destination :{" "}
-              <span className="text-black">{pack.destination}</span>
+              <span className="text-black capitalize">{pack.destination}</span>
             </p>
             <p>
               Number of Travelers :{" "}
               <span className="text-black">{pack.numberOfTravelers}</span>
             </p>
             <p>
-              Specialty : <span className="text-black">{pack.speciality}</span>
+              Specialty :{" "}
+              <span className="text-black capitalize">{pack.speciality}</span>
             </p>
             <p>
               Package Rating :{" "}
-              <span className="text-black">{pack.packageRating}</span>
+              <span className="text-yellow-800">
+                {getRatingStar(pack.packageRating)}
+              </span>
             </p>
           </div>
 
           <p className="antialiased text-2xl text-red-400">
-            {Constant.CURRENCY} {pack.price}
+            {Constant.CURRENCY} {pack.price.toLocaleString()}
           </p>
           <div>
             <Button

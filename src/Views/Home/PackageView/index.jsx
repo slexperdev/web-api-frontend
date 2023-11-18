@@ -99,7 +99,11 @@ export default function PackageView() {
             name="duration"
             onChange={handleSelect}
           />
-          <Button title="Clear" color="secondary" onChange={handleClear} />
+          <Button
+            title="Clear Filters"
+            color="secondary"
+            onChange={handleClear}
+          />
         </form>
       </div>
 
@@ -122,9 +126,10 @@ export default function PackageView() {
             <Card
               key={key}
               price={item.price}
+              rating={item.packageRating}
               title={item.title}
               onClickHandler={() => onNavigateToDetailView(item)}
-              img="https://cdn3.vectorstock.com/i/1000x1000/56/97/colorful-travel-icon-set-vector-48265697.jpg"
+              img="https://static.thenounproject.com/png/188668-200.png"
             />
           ))}
         </div>

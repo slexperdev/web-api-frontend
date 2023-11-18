@@ -18,8 +18,9 @@ import {
 
 import { Constant } from "../../Constant";
 import { Cart } from "../Cart";
+import { useGetCartQuery } from "../../Services/CartService";
 
-function NavList({ setOpenCart }) {
+function NavList({ setOpenCart, cartAvailability }) {
   return (
     <ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       {Constant.NAV_LINKS.map((item, idx) => (
@@ -29,7 +30,9 @@ function NavList({ setOpenCart }) {
         className="relative cursor-pointer lg:visible sm:invisible"
         onClick={() => setOpenCart(true)}
       >
-        <div className="absolute right-[-2px] top-[-2px] h-2 w-2 bg-red-400 rounded-[50%]" />
+        {cartAvailability && (
+          <div className="absolute right-[-2px] top-[-2px] h-2 w-2 bg-red-400 rounded-[50%]" />
+        )}
 
         <ShoppingBagIcon className="h-6 w-6" />
       </a>
@@ -45,6 +48,10 @@ function NavList({ setOpenCart }) {
 }
 
 export const Navbar = ({ setOpenCart }) => {
+  const agentId = localStorage.getItem(Constant.TRAVEL_AGENT_ID);
+
+  const { data } = useGetCartQuery(agentId);
+
   const [openNav, setOpenNav] = React.useState(false);
 
   const handleWindowResize = () =>
@@ -57,6 +64,21 @@ export const Navbar = ({ setOpenCart }) => {
       window.removeEventListener("resize", handleWindowResize);
     };
   }, []);
+
+  const cartAvailability = () => {
+    let cartStatus = false;
+    if (
+      data?.cruises.length !== 0 ||
+      data?.activities?.length !== 0 ||
+      data?.packages?.length !== 0
+    ) {
+      cartStatus = true;
+    } else {
+      cartStatus = false;
+    }
+
+    return cartStatus;
+  };
 
   return (
     <Nav className="mx-auto max-w-screen-xl px-6 py-3 shadow-none rounded-none border-b-2 border-b-light-blue-200">
@@ -71,13 +93,18 @@ export const Navbar = ({ setOpenCart }) => {
         </Typography>
 
         <div className="hidden lg:block">
-          <NavList setOpenCart={setOpenCart} />
+          <NavList
+            setOpenCart={setOpenCart}
+            cartAvailability={cartAvailability()}
+          />
         </div>
         <a
           className="lg:hidden relative cursor-pointer"
           onClick={() => setOpenCart(true)}
         >
-          <div className="absolute right-[-2px] top-[-2px] h-2 w-2 bg-red-400 rounded-[50%]"></div>
+          {cartAvailability() && (
+            <div className="absolute right-[-2px] top-[-2px] h-2 w-2 bg-red-400 rounded-[50%]"></div>
+          )}
           <ShoppingBagIcon className="h-6 w-6" />
         </a>
         <IconButton

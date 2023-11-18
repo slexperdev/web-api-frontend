@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ClockLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 import {
   useGetArrivalsQuery,
@@ -17,7 +18,9 @@ import { Button, Card, Dropdown, Layout, TextField } from "../../../Components";
 export default function CruiseView() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [filterState, setFilterState] = useState();
+
   const {
     data: cruiseData,
     isLoading: isCruiseLoading,
@@ -31,10 +34,24 @@ export default function CruiseView() {
     useGetProvidersQuery();
 
   const handleSelect = (e) => {
-    setFilterState((prevFilterState) => ({
-      ...prevFilterState,
-      [e.target.name]: e.target.value,
-    }));
+    setFilterState((prevFilterState) => {
+      let updatedState = { ...prevFilterState };
+
+      if (e.target.type === "date") {
+        // Convert departureDate to timestamp using dayjs
+        updatedState = {
+          ...updatedState,
+          [e.target.name]: dayjs(e.target.value).valueOf(),
+        };
+      } else {
+        updatedState = {
+          ...updatedState,
+          [e.target.name]: e.target.value,
+        };
+      }
+
+      return updatedState;
+    });
   };
 
   const handleClear = async () => {
@@ -125,10 +142,17 @@ export default function CruiseView() {
             name="provider"
             onChange={handleSelect}
           />
-          <Button title="Clear" color="secondary" onClick={handleClear} />
+          <Button
+            title="Clear Filters"
+            color="secondary"
+            onClick={handleClear}
+          />
         </form>
       </div>
-      {isCruiseLoading || isFetching ? (
+      {isCruiseLoading ||
+      isFetching ||
+      isDepartureLoading ||
+      isArrivalLoading ? (
         <div className="flex items-center justify-center mt-10">
           <ClockLoader color="#36a6d6" />
         </div>
@@ -149,7 +173,7 @@ export default function CruiseView() {
               price={item.price}
               title={item.title}
               onClickHandler={() => onNavigateToDetailView(item)}
-              img="https://afar.brightspotcdn.com/dims4/default/e3b808d/2147483647/strip/false/crop/1024x781+0+0/resize/1024x781!/quality/90/?url=https%3A%2F%2Fafar-media-production-web.s3.us-west-2.amazonaws.com%2Fbrightspot%2Fea%2F3d%2Fe21e67894ffbbc294c1bb216184c%2Fmv-lara.jpeg"
+              img="https://images.vexels.com/media/users/3/234186/isolated/preview/c040755db6792035b60ec0930aaf2fab-cruise-ship-sailing-cut-out.png"
             />
           ))}
         </div>

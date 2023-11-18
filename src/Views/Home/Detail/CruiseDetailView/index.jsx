@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import dayjs from "dayjs";
 
 import { useAddToCartMutation } from "../../../../Services/CartService";
 import { Constant } from "../../../../Constant";
@@ -18,29 +19,33 @@ export default function CruiseDetailView() {
   });
 
   const handleCart = async () => {
-    try {
-      const agentId = localStorage.getItem(Constant.TRAVEL_AGENT_ID);
-      const data = {
-        travelAgentId: agentId,
-        cruises: [
-          {
-            title: cruise.title,
-            price: cruise.price,
-            mealPreferences: state.mealPreferences,
-            cabinSelection: state.cabinSelection,
-          },
-        ],
-      };
+    if (state.cabinSelection === "" || state.mealPreferences === "") {
+      toast.error("Cabin selection and Meal preferences required!");
+    } else {
+      try {
+        const agentId = localStorage.getItem(Constant.TRAVEL_AGENT_ID);
+        const data = {
+          travelAgentId: agentId,
+          cruises: [
+            {
+              title: cruise.title,
+              price: cruise.price,
+              mealPreferences: state.mealPreferences,
+              cabinSelection: state.cabinSelection,
+            },
+          ],
+        };
 
-      const res = await addToCart({ data });
+        const res = await addToCart({ data });
 
-      if (res.data.status) {
-        toast.success("Cruise added to cart");
-      } else {
-        toast.error(res.data.data);
+        if (res.data.status) {
+          toast.success("Cruise added to cart");
+        } else {
+          toast.error(res.data.data);
+        }
+      } catch (error) {
+        toast.error(error);
       }
-    } catch (error) {
-      toast.error(error);
     }
   };
 
@@ -55,23 +60,45 @@ export default function CruiseDetailView() {
           />
         </div>
         <div className="flex flex-col gap-4">
-          <p className="text-2xl capitalize">{cruise.title}</p>
+          <p className="text-3xl capitalize">{cruise.title}</p>
 
-          <p className="text-sm text-gray-600">{cruise.description}</p>
+          <p className="text-sm text-gray-600 capitalize">
+            {cruise.description}
+          </p>
           <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
             <p>
               Departure Destination :{" "}
-              <span className="text-black">{cruise.departureDestination}</span>
+              <span className="text-black capitalize">
+                {cruise.departureDestination}
+              </span>
             </p>
             <p>
               Arrival Destination :{" "}
-              <span className="text-black">{cruise.arrivalDestination}</span>
+              <span className="text-black capitalize">
+                {cruise.arrivalDestination}
+              </span>
+            </p>
+            <p>
+              Departure Date :{" "}
+              <span className="text-black">
+                {dayjs(cruise.departureDate * 1000).format("DD MMM YY")}
+              </span>
+            </p>
+            <p>
+              Arrival Date :{" "}
+              <span className="text-black">
+                {dayjs(cruise.arrivalDate * 1000).format("DD MMM YY")}
+              </span>
+            </p>
+            <p>
+              Duration : <span className="text-black">{cruise.duration}</span>
             </p>
             <p>
               Deck : <span className="text-black">{cruise.deck}</span>
             </p>
             <p>
-              Provider : <span className="text-black">{cruise.provider}</span>
+              Provider :{" "}
+              <span className="text-black capitalize">{cruise.provider}</span>
             </p>
           </div>
           <div className="flex flex-col gap-2">
@@ -95,7 +122,7 @@ export default function CruiseDetailView() {
             />
           </div>
           <p className="antialiased text-2xl text-red-400">
-            {Constant.CURRENCY} {cruise.price}
+            {Constant.CURRENCY} {cruise.price.toLocaleString()}
           </p>
           <div>
             <Button

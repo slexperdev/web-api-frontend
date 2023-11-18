@@ -1,9 +1,9 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { publicBaseQuery } from "../baseQueries";
+import { baseQueryWithAuthHeaders } from "../baseQueries";
 
 export const cartApi = createApi({
   reducerPath: "cartApi",
-  baseQuery: publicBaseQuery,
+  baseQuery: baseQueryWithAuthHeaders,
   tagTypes: ["cart"],
   endpoints: (build) => ({
     addToCart: build.mutation({
@@ -22,6 +22,13 @@ export const cartApi = createApi({
       providesTags: ["cart"],
       transformResponse: (response) => response,
     }),
+    removeCartItem: build.mutation({
+      query: ({ cartId, itemId }) => ({
+        url: `cart/remove/${cartId}/${itemId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["cart"],
+    }),
     checkout: build.mutation({
       query: ({ data }) => ({
         url: "checkout/",
@@ -32,5 +39,9 @@ export const cartApi = createApi({
   }),
 });
 
-export const { useAddToCartMutation, useGetCartQuery, useCheckoutMutation } =
-  cartApi;
+export const {
+  useAddToCartMutation,
+  useGetCartQuery,
+  useRemoveCartItemMutation,
+  useCheckoutMutation,
+} = cartApi;

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ClockLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 import { useGetActivityQuery } from "../../../Services/ActivityService";
 import { useGetDestinationsQuery } from "../../../Services/ConfigService";
@@ -24,10 +25,24 @@ export default function ActivityView() {
     useGetDestinationsQuery();
 
   const handleSelect = (e) => {
-    setFilterState((prevFilterState) => ({
-      ...prevFilterState,
-      [e.target.name]: e.target.value,
-    }));
+    setFilterState((prevFilterState) => {
+      let updatedState = { ...prevFilterState };
+
+      if (e.target.type === "date") {
+        // Convert departureDate to timestamp using dayjs
+        updatedState = {
+          ...updatedState,
+          [e.target.name]: dayjs(e.target.value).valueOf(),
+        };
+      } else {
+        updatedState = {
+          ...updatedState,
+          [e.target.name]: e.target.value,
+        };
+      }
+
+      return updatedState;
+    });
   };
 
   const handleClear = async () => {
@@ -86,7 +101,11 @@ export default function ActivityView() {
             onChange={handleSelect}
             data={Constant.RATING}
           />
-          <Button title="Clear" color="secondary" onChange={handleClear} />
+          <Button
+            title="Clear Filters"
+            color="secondary"
+            onChange={handleClear}
+          />
         </form>
       </div>
 
@@ -109,9 +128,10 @@ export default function ActivityView() {
             <Card
               key={key}
               price={item.price}
+              rating={item.starRating}
               title={item.title}
               onClickHandler={() => onNavigateToDetailView(item)}
-              img="https://mir-s3-cdn-cf.behance.net/project_modules/disp/c0e6e651494561.58ef650eda566.png"
+              img="https://static.thenounproject.com/png/2757867-200.png"
             />
           ))}
         </div>

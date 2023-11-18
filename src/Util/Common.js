@@ -12,3 +12,18 @@ export const getConvertedData = (data) => {
     console.log(error);
   }
 };
+
+export const getRatingStar = (value) => {
+  switch (value) {
+    case 5:
+      return "⭑⭑⭑⭑⭑";
+    case 4:
+      return "⭑⭑⭑⭑";
+    case 3:
+      return "⭑⭑⭑";
+    case 2:
+      return "⭑⭑";
+    case 1:
+      return "⭑";
+  }
+};
